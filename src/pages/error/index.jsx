@@ -1,6 +1,6 @@
 export default function ErrorPage() {
     return (
-        <div className="container min-h-screen pt-20 bg-base-200">
+        <div className="container mx-auto px-4 py-8 pt-5">
             <div className="hero-content text-center">
                 <div className="max-w-md">
                     <h1 className="text-5xl font-bold">404</h1>

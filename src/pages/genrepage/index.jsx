@@ -9,8 +9,8 @@ export default function GenrePage() {
     const { data, loading, error } = useFetchSolution(initialUrl);
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold mb-8 capitalize">Games in {genre.replace('-', ' ')}</h1>
+        <div className="container mx-auto px-4 py-8 pt-5">
+            <h1 className="text-5xl font-bold mb-16 text-center">Games in {genre.replace('-', ' ')}</h1>
             {loading && <div className="text-center py-10">Loading...</div>}
             {error && <div className="text-center py-10 text-error">{error}</div>}
             {data && (

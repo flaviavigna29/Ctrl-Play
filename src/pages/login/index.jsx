@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import supabase from '../../supabase/supabase-client';
 import { FormSchema, getErrors, getFieldError } from '../../lib/validationForm';
 
@@ -51,24 +51,24 @@ export default function LoginPage() {
         (formSubmitted || touchedFields[field]) && formErrors[field];
 
     return (
-        <div className="container mx-auto px-4 py-8 pt-40">
+        <div className="container mx-auto px-4 py-8 pt-5">
             <div className="hero-content flex-col lg:flex-row-reverse flex justify-evenly">
                 <div className="text-center lg:text-left">
-                    <h1 className="text-5xl font-bold">Accedi ora!</h1>
-                    <p className="py-6">Accedi al tuo account per godere di tutti i nostri servizi esclusivi.</p>
+                    <h1 className="text-5xl font-bold">Sign in now!</h1>
+                    <p className="py-6">Log in to your account to enjoy all our exclusive services.</p>
                 </div>
                 <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                     <form className="card-body" onSubmit={onSubmit} noValidate>
-                        {/* Email Field */}
-                        <div className="form-control">
-                            <label className="label">
+                        <div className="mb-6">
+
+                            <label className="block text-white mb-2">
                                 <span className="label-text">Email</span>
                             </label>
                             <input
                                 type="email"
                                 id="email"
-                                placeholder="email@esempio.com"
-                                className={`input input-bordered ${isInvalid('email') ? 'input-error' : ''}`}
+                                placeholder="email@example.com"
+                                className={`w-full p-3 border border-indigo-400 rounded ${isInvalid('email') ? 'input-error' : ''}`}
                                 value={formState.email}
                                 onChange={setField('email')}
                                 onBlur={onBlur('email')}
@@ -81,16 +81,15 @@ export default function LoginPage() {
                             }
                         </div>
 
-                        {/* Password Field */}
-                        <div className="form-control">
-                            <label className="label">
+                        <div className="mb-6">
+                            <label className="block text-white mb-2">
                                 <span className="label-text">Password</span>
                             </label>
                             <input
                                 type="password"
                                 id="password"
-                                placeholder="Inserisci la tua password"
-                                className={`input input-bordered ${isInvalid('password') ? 'input-error' : ''}`}
+                                placeholder="Enter your password"
+                                className={`w-full p-3 border border-indigo-400 rounded ${isInvalid('password') ? 'input-error' : ''}`}
                                 value={formState.password}
                                 onChange={setField('password')}
                                 onBlur={onBlur('password')}
@@ -101,18 +100,16 @@ export default function LoginPage() {
                                     <span className="label-text-alt text-error">{formErrors.password}</span>
                                 </label>
                             }
-                            <label className="label">
-                                <a href="#" className="label-text-alt link link-hover">Password dimenticata?</a>
-                            </label>
                         </div>
 
                         <div className="form-control mt-6">
-                            <button type="submit" className="btn btn-primary">Accedi</button>
+                            <button type="submit" className="w-full btn btn-primary py-3 rounded font-medium uppercase">
+                            Log in</button>
                         </div>
 
                         <div className="text-center mt-4">
-                            <span className="text-sm">Non hai un account? </span>
-                            <a href="/register" className="link link-primary text-sm">Registrati qui</a>
+                            <span className="text-sm">Don't have an account? </span>
+                            <Link to="/register"className="link link-primary text-sm">Register here</Link>
                         </div>
                     </form>
                 </div>

@@ -1,6 +1,8 @@
 import { useParams } from "react-router";
 import useFetchSolution from '../../hooks/useFetchSolution';
 import config from '../../utils/config';
+import ToggleFavorite from '../../components/ToggleFavorite';
+import Chatbox from '../../components/Chatbox';
 
 export default function GamePage() {
     const { id } = useParams();
@@ -12,10 +14,13 @@ export default function GamePage() {
     if (!game) return <div className="text-center py-10">Game not found</div>;
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 pt-5">
             <div className="flex flex-col lg:flex-row gap-8">
                 <div className="lg:w-2/3">
-                    <h1 className="text-4xl font-bold mb-4">{game.name}</h1>
+                    <div className="flex items-center gap-4 mb-4">
+                        <h1 className="text-4xl font-bold">{game.name}</h1>
+                        <ToggleFavorite game={game} />
+                    </div>
                     <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: game.description }} />
                 </div>
 
@@ -33,6 +38,9 @@ export default function GamePage() {
                             <p><strong>Rating:</strong> {game.rating}/5</p>
                             <p><strong>Platforms:</strong> {game.platforms?.map(p => p.platform.name).join(', ')}</p>
                         </div>
+                    </div>
+                    <div className="card mt-6">
+                        <Chatbox game={game} />
                     </div>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 import useFetchSolution from '../hooks/useFetchSolution';
 import { Link } from 'react-router';
 import config from '../utils/config';
+import SearchBar from "../components/SearchBar";
 
 
 export default function GenresDropdown() {
@@ -12,7 +13,9 @@ export default function GenresDropdown() {
 
     return (
         <div className="p-2">
-            {/* <h2 className="text-xl font-bold mb-4">Game Genres</h2> */}
+            <div className="md:hidden my-5">
+                <SearchBar mobile />
+            </div>
             <ul className="menu bg-base-200 rounded-box w-56">
                 {data?.results.map(genre => (
                     <li key={genre.id}>

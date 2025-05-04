@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import supabase from '../../supabase/supabase-client';
 import { ConfirmSchema, getErrors, getFieldError } from '../../lib/validationForm';
 
@@ -39,10 +39,10 @@ export default function RegisterPage() {
 
                 if (error) throw error;
 
-                alert('Registrazione completata!');
+                alert('Registration completed!');
                 setTimeout(() => navigate('/'), 1000);
             } catch (error) {
-                alert('Errore durante la registrazione: ' + error.message);
+                alert('Error while registering: ' + error.message);
             }
         }
     };
@@ -61,118 +61,113 @@ export default function RegisterPage() {
         (formSubmitted || touchedFields[field]) && formErrors[field];
 
     return (
-        <div className="container min-h-screen bg-base-200 pt-20">
+        <div className="container mx-auto px-4 py-8 pt-5">
             <div className="hero-content flex-col lg:flex-row-reverse flex justify-evenly">
                 <div className="text-center lg:text-left">
-                    <h1 className="text-5xl font-bold">Registrati ora!</h1>
-                    <p className="py-6">Unisciti alla nostra community.</p>
+                    <h1 className="text-5xl font-bold">Register now!</h1>
+                    <p className="py-6">Join our community.</p>
                 </div>
                 <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                     <form className="card-body" onSubmit={onSubmit} noValidate>
-                        {/* Email Field */}
-                        <div className="form-control">
-                            <label className="label">
+                        <div className="mb-2">
+                            <label className="block text-white mb-2">
                                 <span className="label-text">Email</span>
                             </label>
                             <input
                                 type="email"
                                 id="email"
-                                placeholder="email@esempio.com"
-                                className={`input input-bordered ${isInvalid('email') ? 'input-error' : ''}`}
+                                placeholder="email@example.com"
+                                className={`w-full p-3 border border-indigo-400 rounded ${isInvalid('email') ? 'input-error' : ''}`}
                                 value={formState.email}
                                 onChange={setField('email')}
                                 onBlur={onBlur('email')}
                                 required
                             />
-                            {isInvalid('email') && 
+                            {isInvalid('email') &&
                                 <label className="label">
                                     <span className="label-text-alt text-error">{formErrors.email}</span>
                                 </label>
                             }
                         </div>
 
-                        {/* First Name Field */}
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Nome</span>
+                        <div className="mb-2">
+                            <label className="block text-white mb-2">
+                                <span className="label-text">Name</span>
                             </label>
                             <input
                                 type="text"
                                 id="firstName"
-                                placeholder="Inserisci il tuo nome"
-                                className={`input input-bordered ${isInvalid('firstName') ? 'input-error' : ''}`}
+                                placeholder="Enter your name"
+                                className={`w-full p-3 border border-indigo-400 rounded ${isInvalid('firstName') ? 'input-error' : ''}`}
                                 value={formState.firstName}
                                 onChange={setField('firstName')}
                                 onBlur={onBlur('firstName')}
                                 required
                             />
-                            {isInvalid('firstName') && 
+                            {isInvalid('firstName') &&
                                 <label className="label">
                                     <span className="label-text-alt text-error">{formErrors.firstName}</span>
                                 </label>
                             }
                         </div>
 
-                        {/* Last Name Field */}
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Cognome</span>
+                        <div className="mb-2">
+                            <label className="block text-white mb-2">
+                                <span className="label-text">Surname</span>
                             </label>
                             <input
                                 type="text"
                                 id="lastName"
-                                placeholder="Inserisci il tuo cognome"
-                                className={`input input-bordered ${isInvalid('lastName') ? 'input-error' : ''}`}
+                                placeholder="Enter your surname"
+                                className={`w-full p-3 border border-indigo-400 rounded ${isInvalid('lastName') ? 'input-error' : ''}`}
                                 value={formState.lastName}
                                 onChange={setField('lastName')}
                                 onBlur={onBlur('lastName')}
                                 required
                             />
-                            {isInvalid('lastName') && 
+                            {isInvalid('lastName') &&
                                 <label className="label">
                                     <span className="label-text-alt text-error">{formErrors.lastName}</span>
                                 </label>
                             }
                         </div>
 
-                        {/* Username Field */}
-                        <div className="form-control">
-                            <label className="label">
+                        <div className="mb-2">
+                            <label className="block text-white mb-2">
                                 <span className="label-text">Username</span>
                             </label>
                             <input
                                 type="text"
                                 id="username"
-                                placeholder="Scegli un username"
-                                className={`input input-bordered ${isInvalid('username') ? 'input-error' : ''}`}
+                                placeholder="Choose a username"
+                                className={`w-full p-3 border border-indigo-400 rounded ${isInvalid('username') ? 'input-error' : ''}`}
                                 value={formState.username}
                                 onChange={setField('username')}
                                 onBlur={onBlur('username')}
                                 required
                             />
-                            {isInvalid('username') && 
+                            {isInvalid('username') &&
                                 <label className="label">
                                     <span className="label-text-alt text-error">{formErrors.username}</span>
                                 </label>
                             }
                         </div>
 
-                        {/* Password Field */}
-                        <div className="form-control">
-                            <label className="label">
+                        <div className="mb-2">
+                            <label className="block text-white mb-2">
                                 <span className="label-text">Password</span>
                             </label>
                             <input
                                 type="password"
                                 id="password"
-                                placeholder="Inserisci una password"
-                                className={`input input-bordered ${isInvalid('password') ? 'input-error' : ''}`}
+                                placeholder="Enter a password"
+                                className={`w-full p-3 border border-indigo-400 rounded ${isInvalid('password') ? 'input-error' : ''}`}
                                 value={formState.password}
                                 onChange={setField('password')}
                                 onBlur={onBlur('password')}
                                 required
                             />
-                            {isInvalid('password') && 
+                            {isInvalid('password') &&
                                 <label className="label">
                                     <span className="label-text-alt text-error">{formErrors.password}</span>
                                 </label>
@@ -180,12 +175,14 @@ export default function RegisterPage() {
                         </div>
 
                         <div className="form-control mt-6">
-                            <button type="submit" className="btn btn-primary">Registrati</button>
+                            <button type="submit" className="w-full btn btn-primary py-3 rounded font-medium uppercase">
+                                Register
+                            </button>
                         </div>
-                        
+
                         <div className="text-center mt-4">
-                            <span className="text-sm">Hai già un account? </span>
-                            <a href="/login" className="link link-primary text-sm">Accedi qui</a>
+                            <span className="text-sm">Already have an account? </span>
+                            <Link to="/login" className="link link-primary text-sm">Log in here</Link>
                         </div>
                     </form>
                 </div>
