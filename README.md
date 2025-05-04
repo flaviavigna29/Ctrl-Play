@@ -51,4 +51,4 @@ Dopo l'autenticazione (gestita tramite Supabase per massima sicurezza), ogni ute
 
 ## Deployment
 
-* Rimpiazza con il link online della tua App.
+* [Ctrl+Play](https://ctrl-play-seven.vercel.app/)
