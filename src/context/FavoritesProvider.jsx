@@ -47,8 +47,6 @@ export default function FavoritesProvider({ children }) {
         
         console.log("Removing favorite:", game);
         
-        // Verifica se stiamo ricevendo un oggetto con game_id (dalla pagina account)
-        // o con id (direttamente dalla pagina del gioco)
         const gameIdToDelete = game.game_id ? game.game_id : game.id;
         
         const { error } = await supabase
@@ -60,7 +58,6 @@ export default function FavoritesProvider({ children }) {
         if (error) {
             console.error("Error removing favorite:", error);
         } else {
-            // Aggiorna lo stato locale rimuovendo il gioco dalla lista
             setFavorites(prev => prev.filter(f => f.game_id !== gameIdToDelete));
         }
     };

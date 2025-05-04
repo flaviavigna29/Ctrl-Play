@@ -1,35 +1,35 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import supabase from '../supabase/supabase-client';
-import { FaUser } from 'react-icons/fa';
 
 dayjs.extend(relativeTime);
 
 export default function RealtimeChat({ game }) {
     const [messages, setMessages] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef(null);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
-    const getMessages = async () => {
+    const getMessages = useCallback(async () => {
         setLoading(true);
         const { data, error } = await supabase
             .from('messages')
-            .select('*')
+            .select()
             .eq('game_id', game.id)
             .order('created_at', { ascending: true });
 
-        if (error) {
-            console.error('Error fetching messages:', error);
-        } else {
+        if (!error) {
             setMessages(data || []);
+            setTimeout(scrollToBottom, 100);
+        } else {
+            console.error('Error fetching messages:', error);
         }
         setLoading(false);
-    };
+    }, [game.id]);
 
     useEffect(() => {
         if (!game?.id) return;
@@ -37,60 +37,54 @@ export default function RealtimeChat({ game }) {
         getMessages();
 
         const channel = supabase
-            .channel(`messages:game_id=eq.${game.id}`)
+            .channel(`realtime:messages`)
             .on(
                 'postgres_changes',
                 {
-                    event: '*',
+                    event: 'INSERT',
                     schema: 'public',
                     table: 'messages',
                     filter: `game_id=eq.${game.id}`
                 },
-                () => getMessages()
+                (payload) => {
+                    console.log('New message realtime:', payload.new);
+                    setMessages(prev => [...prev, payload.new]);
+                    scrollToBottom();
+                }
             )
             .subscribe();
 
         return () => {
             supabase.removeChannel(channel);
         };
-    }, [game.id]);
-
-    useEffect(() => {
-        scrollToBottom();
-    }, [messages]);
+    }, [game.id, getMessages]);
 
     return (
-        <div className="bg-base-100 rounded-lg p-4 h-96 overflow-y-auto">
+        <div className="space-y-4 h-64 overflow-y-auto p-2">
             {loading ? (
                 <div className="flex justify-center items-center h-full">
-                    <span className="loading loading-spinner loading-lg"></span>
+                    <span className="loading loading-spinner"></span>
                 </div>
             ) : messages.length === 0 ? (
-                <div className="flex justify-center items-center h-full text-gray-500">
-                    No messages yet. Be the first to chat!
+                <div className="flex justify-center items-center h-full text-gray-400">
+                    No messages yet. Start the conversation!
                 </div>
             ) : (
-                <div className="space-y-4">
-                    {messages.map((message) => (
-                        <div key={message.id} className="chat" ref={messages.length - 1 === messages.indexOf(message) ? messagesEndRef : null}>
-                            <div className="chat-image avatar">
-                                <div className="w-10 rounded-full bg-base-300 flex items-center justify-center">
-                                    <FaUser />
-                                </div>
-                            </div>
-                            <div className="chat-header">
-                                {message.profile_username}
-                                <time className="text-xs opacity-50 ml-2">
-                                    {dayjs(message.created_at).fromNow()}
-                                </time>
-                            </div>
-                            <div className="chat-bubble bg-base-300">
-                                {message.content}
-                            </div>
+                messages.map((message) => (
+                    <div key={message.id} className="chat chat-start">
+                        <div className="chat-header">
+                            {message.profile_username}
+                            <time className="text-xs opacity-50 ml-2">
+                                {dayjs(message.created_at).fromNow()}
+                            </time>
                         </div>
-                    ))}
-                </div>
+                        <div className="chat-bubble bg-base-200">
+                            {message.content}
+                        </div>
+                    </div>
+                ))
             )}
+            <div ref={messagesEndRef} />
         </div>
     );
 }

@@ -1,4 +1,3 @@
-// src/lib/validationForm.js
 import z from 'zod';
 
 const passwordRegex = /(?=.*[A-Z])(?=.*[a-z])(?=.*\d).*$/;
