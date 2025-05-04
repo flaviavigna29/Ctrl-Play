@@ -1,25 +1,3 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-
-/* Larghezza della scrollbar */
-::-webkit-scrollbar {
-    width: 5px;  /* scrollbar verticale più sottile */
-    height: 5px; /* scrollbar orizzontale più sottile */
-  }
-  
-  /* Colore della traccia (sfondo) */
-  ::-webkit-scrollbar-track {
-    background: #4039ad;
-  }
-  
-  /* Colore dell'impugnatura (barra mobile) */
-  ::-webkit-scrollbar-thumb {
-    background: #317e22;
-    border-radius: 3px;
-  }
-  
-  /* Colore dell'impugnatura al passaggio del mouse */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #bd2525f8 !important;
-  }
